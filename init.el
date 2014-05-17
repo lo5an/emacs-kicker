@@ -1,10 +1,4 @@
-;; emacs kicker --- kick start emacs setup
-;; Copyright (C) 2010 Dimitri Fontaine
-;;
-;; Author: Dimitri Fontaine <dim@tapoueh.org>
-;; URL: https://github.com/dimitri/emacs-kicker
-;; Created: 2011-04-15
-;; Keywords: emacs setup el-get kick-start starter-kit
+;; based on emacs kicker  by Dimitri Fontaine <dim@tapoueh.org>
 ;; Licence: WTFPL, grab your copy here: http://sam.zoy.org/wtfpl/
 ;;
 ;; This file is NOT part of GNU Emacs.
@@ -27,24 +21,24 @@
 (setq
  el-get-sources
  '((:name buffer-move			; have to add your own keys
-	  :after (lambda ()
+	  :after (progn
 		   (global-set-key (kbd "<C-S-up>")     'buf-move-up)
 		   (global-set-key (kbd "<C-S-down>")   'buf-move-down)
 		   (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 		   (global-set-key (kbd "<C-S-right>")  'buf-move-right)))
 
    (:name smex				; a better (ido like) M-x
-	  :after (lambda ()
+	  :after (progn
 		   (setq smex-save-file "~/.emacs.d/.smex-items")
 		   (global-set-key (kbd "M-x") 'smex)
 		   (global-set-key (kbd "M-X") 'smex-major-mode-commands)))
 
    (:name magit				; git meet emacs, and a binding
-	  :after (lambda ()
+	  :after (progn
 		   (global-set-key (kbd "C-x C-z") 'magit-status)))
 
    (:name goto-last-change		; move pointer back to last change
-	  :after (lambda ()
+	  :after (progn
 		   ;; when using AZERTY keyboard, consider C-x C-_
 		   (global-set-key (kbd "C-x C-/") 'goto-last-change)))))
 
@@ -65,8 +59,8 @@
 ;;
 ;; Note: el-get-install requires git, so we know we have at least that.
 ;;
-(when (el-get-executable-find "cvs")
-  (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
+;; (when (el-get-executable-find "cvs")
+;;   (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
 
 (when (el-get-executable-find "svn")
   (loop for p in '(psvn    		; M-x svn-status
@@ -93,13 +87,13 @@
   ;; on mac, there's always a menu bar drown, don't have it empty
   (menu-bar-mode -1))
 
-;; choose your own fonts, in a system dependant way
-(if (string-match "apple-darwin" system-configuration)
-    (set-face-font 'default "Monaco-13")
-  (set-face-font 'default "Monospace-10"))
+;; ;; choose your own fonts, in a system dependant way
+;; (if (string-match "apple-darwin" system-configuration)
+;;     (set-face-font 'default "Monaco-13")
+;;   (set-face-font 'default "Monospace-10"))
 
-(global-hl-line-mode)			; highlight current line
-(global-linum-mode 1)			; add line numbers on the left
+;;(global-hl-line-mode)			; highlight current line
+;;(global-linum-mode 1)			; add line numbers on the left
 
 ;; avoid compiz manager rendering bugs
 (add-to-list 'default-frame-alist '(alpha . 100))
@@ -163,7 +157,7 @@
 ;; manager or do M-x kill-emacs.  Don't need a nice shortcut for a once a
 ;; week (or day) action.
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
+;; (global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
 (global-set-key (kbd "C-x B") 'ibuffer)
 
 ;; C-x C-j opens dired with the cursor right on the file you're editing
@@ -175,3 +169,8 @@
   (set-frame-parameter nil 'fullscreen
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
+
+
+;; load customizations, but don't complain if they're not here
+(load  "~/.emacs.d/lmc.el" 'no-error)
+(load  "~/.emacs.d/custom.el" 'no-error)
