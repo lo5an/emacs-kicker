@@ -1,4 +1,3 @@
-
 ;; allow erase-buffere command
 (put 'erase-buffer 'disabled nil)
 
@@ -44,7 +43,7 @@
 (defun drupal-mode ()
   "Drupal php-mode."
   (interactive)
-  (php-mode-improved)
+  (php-mode)
   (message "Drupal mode activated.")
   (set 'tab-width 2)
   (set 'c-basic-offset 2)
@@ -69,3 +68,8 @@
 (setq c-basic-offset 4)
 (setq tab-width 4)
 (setq indent-tabs-mode nil)
+
+;;http://www.masteringemacs.org/articles/2011/10/02/improving-performance-emacs-display-engine/
+
+;; fully redraw the display before processing queued input events. 
+(setq redisplay-dont-pause t)

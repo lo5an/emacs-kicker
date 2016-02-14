@@ -62,6 +62,10 @@
 ;; (when (el-get-executable-find "cvs")
 ;;   (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
 
+
+
+
+
 (when (el-get-executable-find "svn")
   (loop for p in '(psvn    		; M-x svn-status
 		   yasnippet		; powerful snippet mode
@@ -83,7 +87,8 @@
 
 (tool-bar-mode -1)			; no tool bar with icons
 (scroll-bar-mode -1)			; no scroll bars
-(unless (string-match "apple-darwin" system-configuration)
+(unless (and (string-match "apple-darwin" system-configuration)
+	     (display-graphic-p))
   ;; on mac, there's always a menu bar drown, don't have it empty
   (menu-bar-mode -1))
 
@@ -157,7 +162,7 @@
 ;; manager or do M-x kill-emacs.  Don't need a nice shortcut for a once a
 ;; week (or day) action.
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-;; (global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
+;;(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
 (global-set-key (kbd "C-x B") 'ibuffer)
 
 ;; C-x C-j opens dired with the cursor right on the file you're editing
@@ -174,3 +179,20 @@
 ;; load customizations, but don't complain if they're not here
 (load  "~/.emacs.d/lmc.el" 'no-error)
 (load  "~/.emacs.d/custom.el" 'no-error)
+
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
+ '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
+ '(frame-background-mode (quote light)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
