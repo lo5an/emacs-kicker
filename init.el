@@ -8,11 +8,11 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
 (unless (require 'el-get nil t)
-  (url-retrieve
-   "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
-   (lambda (s)
-     (end-of-buffer)
-     (eval-print-last-sexp))))
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://github.com/dimitri/el-get/raw/master/el-get-install.el")
+    (end-of-buffer)
+    (eval-print-last-sexp)))
 
 ;; now either el-get is `require'd already, or have been `load'ed by the
 ;; el-get installer.
@@ -50,25 +50,20 @@
    php-mode-improved			; if you're into php...
    switch-window			; takes over C-x o
    auto-complete			; complete as you type with overlays
+   yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
-   color-theme		                ; nice looking emacs
-   color-theme-tango))	                ; check out color-theme-solarized
+   color-theme-solarized))	               
 
 ;;
 ;; Some recipes require extra tools to be installed
 ;;
 ;; Note: el-get-install requires git, so we know we have at least that.
 ;;
-;; (when (el-get-executable-find "cvs")
-;;   (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
+(when (ignore-errors (el-get-executable-find "cvs"))
+  (add-to-list 'my:el-get-packages 'emacs-goodies-el)) ; the debian addons for emacs
 
-
-
-
-
-(when (el-get-executable-find "svn")
+(when (ignore-errors (el-get-executable-find "svn"))
   (loop for p in '(psvn    		; M-x svn-status
-		   yasnippet		; powerful snippet mode
 		   )
 	do (add-to-list 'my:el-get-packages p)))
 
@@ -92,13 +87,15 @@
   ;; on mac, there's always a menu bar drown, don't have it empty
   (menu-bar-mode -1))
 
-;; ;; choose your own fonts, in a system dependant way
-;; (if (string-match "apple-darwin" system-configuration)
-;;     (set-face-font 'default "Monaco-13")
-;;   (set-face-font 'default "Monospace-10"))
+;; choose your own fonts, in a system dependant way
+(if (string-match "apple-darwin" system-configuration)
+    (set-face-font 'default "Monaco-13")
+  (set-face-font 'default "Monospace-10"))
 
-;;(global-hl-line-mode)			; highlight current line
-;;(global-linum-mode 1)			; add line numbers on the left
+;; (global-hl-line-mode)			; highlight current line
+
+;; (global-linum-mode 1)			; add line numbers on the left
+;; (setq linum-format "%d ")
 
 ;; avoid compiz manager rendering bugs
 (add-to-list 'default-frame-alist '(alpha . 100))
@@ -155,6 +152,7 @@
 (setq ido-enable-flex-matching t)
 (setq ido-use-filename-at-point 'guess)
 (setq ido-show-dot-for-dired t)
+(setq ido-default-buffer-method 'selected-window)
 
 ;; default key to switch buffer is C-x b, but that's not easy enough
 ;;
@@ -164,6 +162,11 @@
 (global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
 ;;(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
 (global-set-key (kbd "C-x B") 'ibuffer)
+
+;; have vertical ido completion lists
+(setq ido-decorations
+      '("\n-> " "" "\n   " "\n   ..." "[" "]"
+	" [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
 
 ;; C-x C-j opens dired with the cursor right on the file you're editing
 (require 'dired-x)
@@ -175,24 +178,15 @@
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
 
+;; actuall use solarized
+(load-theme 'solarized t)
 
-;; load customizations, but don't complain if they're not here
-(load  "~/.emacs.d/lmc.el" 'no-error)
+
+;; store customizations, but don't complain if they're not here
+(setq custom-file "~/custom.el")
 (load  "~/.emacs.d/custom.el" 'no-error)
 
+;; load other settings
+(load  "~/.emacs.d/lmc.el" 'no-error)
 
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auto-save-file-name-transforms (quote ((".*" "~/.emacs.d/autosaves/\\1" t))))
- '(backup-directory-alist (quote ((".*" . "~/.emacs.d/backups/"))))
- '(frame-background-mode (quote light)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
