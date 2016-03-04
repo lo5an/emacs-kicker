@@ -73,3 +73,7 @@
 
 ;; fully redraw the display before processing queued input events. 
 (setq redisplay-dont-pause t)
+
+
+;; actuall use solarized
+(load-theme 'solarized t)

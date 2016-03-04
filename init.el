@@ -178,8 +178,6 @@
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
 
-;; actuall use solarized
-(load-theme 'solarized t)
 
 
 ;; store customizations, but don't complain if they're not here
