@@ -3,6 +3,15 @@
 ;;
 ;; This file is NOT part of GNU Emacs.
 
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
+
+
 (require 'cl)				; common lisp goodies, loop
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -13,6 +22,9 @@
        "https://github.com/dimitri/el-get/raw/master/el-get-install.el")
     (end-of-buffer)
     (eval-print-last-sexp)))
+
+
+
 
 ;; now either el-get is `require'd already, or have been `load'ed by the
 ;; el-get installer.
@@ -50,9 +62,10 @@
    php-mode-improved			; if you're into php...
    switch-window			; takes over C-x o
    auto-complete			; complete as you type with overlays
-   yasnippet 				; powerful snippet mode
-   zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
-   color-theme-solarized))	               
+   ;; yasnippet 				; powerful snippet mode
+   ;; zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
+   color-theme-solarized
+   yaml-mode))	               
 
 ;;
 ;; Some recipes require extra tools to be installed
@@ -87,10 +100,12 @@
   ;; on mac, there's always a menu bar drown, don't have it empty
   (menu-bar-mode -1))
 
+
+
 ;; choose your own fonts, in a system dependant way
-(if (string-match "apple-darwin" system-configuration)
-    (set-face-font 'default "Monaco-13")
-  (set-face-font 'default "Monospace-10"))
+;;(if (string-match "apple-darwin" system-configuration)
+;;    (set-face-font 'default "Monaco-13")
+;;  (set-face-font 'default "Monospace-10"))
 
 ;; (global-hl-line-mode)			; highlight current line
 
@@ -99,6 +114,9 @@
 
 ;; avoid compiz manager rendering bugs
 (add-to-list 'default-frame-alist '(alpha . 100))
+
+
+
 
 ;; copy/paste with C-c and C-v and C-x, check out C-RET too
 (cua-mode)
@@ -123,6 +141,8 @@
 ;; was no unsaved changes in the corresponding buffer, just revert its
 ;; content to reflect what's on-disk.
 (global-auto-revert-mode 1)
+
+
 
 ;; M-x shell is a nice shell interface to use, let's make it colorful.  If
 ;; you need a terminal emulator rather than just a shell, consider M-x term
@@ -165,23 +185,23 @@
 
 ;; have vertical ido completion lists
 (setq ido-decorations
-      '("\n-> " "" "\n   " "\n   ..." "[" "]"
-	" [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
+'("\n-> " "" "\n   " "\n   ..." "[" "]"
+" [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
 
 ;; C-x C-j opens dired with the cursor right on the file you're editing
 (require 'dired-x)
 
 ;; full screen
 (defun fullscreen ()
-  (interactive)
-  (set-frame-parameter nil 'fullscreen
-		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
+(interactive)
+(set-frame-parameter nil 'fullscreen
+	       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
 
 
 
 ;; store customizations, but don't complain if they're not here
-(setq custom-file "~/custom.el")
+(setq custom-file "~/.emacs.d/custom.el")
 (load  "~/.emacs.d/custom.el" 'no-error)
 
 ;; load other settings
