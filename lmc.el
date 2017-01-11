@@ -62,6 +62,13 @@
 ;; (setup-php-drupal)
 
 
+;; Start Drupal IDE with `drupal-ide' command:
+(setq drupal-ide-load-path (concat user-emacs-directory "drupal/drupal-init.el"))
+(autoload 'drupal-ide drupal-ide-load-path "Start IDE for PHP & Drupal development" t)
+
+
+
+
 ; basic tab behavior 
 ;; stolen from http://www.jwz.org/doc/tabs-vs-spaces.html
 
@@ -77,3 +84,16 @@
 
 ;; actuall use solarized
 (load-theme 'solarized t)
+
+
+;; yaml mode!
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+;; use gnu ls instaleld by homebrew
+(setq insert-directory-program (executable-find "gls"))
+
+;; auto complete with tab 
+(setq tab-always-indent 'complete)
+
+
